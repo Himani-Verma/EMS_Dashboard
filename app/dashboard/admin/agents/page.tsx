@@ -364,10 +364,6 @@ export default function AdminAgentsPage() {
     console.log('✅ User updated in local state:', userWithId);
   };
 
-  const handleEditUser = (user: User) => {
-    setEditingUser(user);
-  };
-
   const handleCloseEditor = () => {
     setEditingUser(null);
   };
@@ -402,7 +398,9 @@ export default function AdminAgentsPage() {
           user.isApproved === false
         );
         console.log('📋 Filtered pending users:', pending);
+        console.log('📋 Setting pending users state to:', pending.length, 'users');
         setPendingUsers(pending);
+        console.log('📋 Pending users state updated');
       } else {
         console.error('❌ Failed to load users:', response.status, response.statusText);
         const errorText = await response.text().catch(() => 'Could not read error');
@@ -428,12 +426,15 @@ export default function AdminAgentsPage() {
         console.log('👥 All users API response for approved:', data);
         const allUsers = data.users || [];
         
-        // Filter approved executives - show all executives (like the original behavior)
+        // Filter approved executives - only show approved users
         const approved = allUsers.filter((user: User) => 
-          ['sales-executive', 'customer-executive', 'executive'].includes(user.role)
+          ['sales-executive', 'customer-executive', 'executive'].includes(user.role) &&
+          user.isApproved === true
         );
         console.log('✅ Filtered approved users:', approved);
+        console.log('✅ Setting approved users state to:', approved.length, 'users');
         setApprovedUsers(approved);
+        console.log('✅ Approved users state updated');
       } else {
         console.error('❌ Failed to load approved users:', response.status, response.statusText);
         const errorText = await response.text().catch(() => 'Could not read error');
@@ -450,6 +451,7 @@ export default function AdminAgentsPage() {
     }
 
     try {
+      console.log('🔄 Approving user:', userId);
       const response = await fetch(`${API_BASE}/api/auth/approve-user/${userId}`, {
         method: 'POST',
         headers: {
@@ -458,18 +460,35 @@ export default function AdminAgentsPage() {
         }
       });
 
+      console.log('📊 Approval response status:', response.status);
+
       if (response.ok) {
         const data = await response.json();
+        console.log('✅ Approval successful:', data);
         alert(data.message);
-        loadPendingUsers();
-        loadApprovedUsers();
-        loadData(); // Refresh agents data too
+        
+        // Refresh all data with detailed logging
+        console.log('🔄 Refreshing data after approval...');
+        console.log('🔄 Calling loadPendingUsers...');
+        await loadPendingUsers();
+        console.log('🔄 Calling loadApprovedUsers...');
+        await loadApprovedUsers();
+        console.log('🔄 Calling loadData...');
+        await loadData();
+        console.log('✅ All data refresh functions completed');
+        
+        // Force a re-render by updating state
+        console.log('🔄 Forcing component re-render...');
+        setPendingUsers(prev => [...prev]);
+        setApprovedUsers(prev => [...prev]);
+        console.log('✅ Component re-render triggered');
       } else {
         const errorData = await response.json();
+        console.error('❌ Approval failed:', errorData);
         alert(errorData.message || 'Failed to approve user');
       }
     } catch (err) {
-      console.error('Error approving user:', err);
+      console.error('❌ Error approving user:', err);
       alert('Failed to approve user');
     }
   };
@@ -502,6 +521,117 @@ export default function AdminAgentsPage() {
     } catch (err) {
       console.error('Error rejecting user:', err);
       alert('Failed to reject user');
+    }
+  };
+
+  const handleDeleteUser = async (userId: string) => {
+    if (!confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      console.log('🔄 Deleting user:', userId);
+      const response = await fetch(`${API_BASE}/api/auth/delete-user/${userId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      console.log('📊 Delete response status:', response.status);
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('✅ Delete successful:', data);
+        alert(data.message);
+        
+        // Refresh all data
+        console.log('🔄 Refreshing data after deletion...');
+        await Promise.all([
+          loadPendingUsers(),
+          loadApprovedUsers(),
+          loadData()
+        ]);
+        console.log('✅ Data refreshed successfully');
+      } else {
+        const errorData = await response.json();
+        console.error('❌ Delete failed:', errorData);
+        alert(errorData.message || 'Failed to delete user');
+      }
+    } catch (err) {
+      console.error('❌ Error deleting user:', err);
+      alert('Failed to delete user');
+    }
+  };
+
+  const handleEditUser = (user: User) => {
+    setEditingUser(user);
+    setFormData({
+      name: user.name,
+      username: user.username,
+      email: user.email,
+      phone: user.phone || '',
+      password: '',
+      confirmPassword: '',
+      role: user.role,
+      region: user.region || ''
+    });
+  };
+
+  const handleUpdateUser = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingUser) return;
+
+    setFormLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`${API_BASE}/api/auth/update-user/${editingUser._id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          role: formData.role,
+          region: formData.region,
+          password: formData.password || undefined
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        alert(data.message);
+        setEditingUser(null);
+        setFormData({
+          name: '',
+          username: '',
+          email: '',
+          phone: '',
+          password: '',
+          confirmPassword: '',
+          role: 'sales-executive',
+          region: ''
+        });
+        // Refresh data
+        await Promise.all([
+          loadPendingUsers(),
+          loadApprovedUsers(),
+          loadData()
+        ]);
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || 'Failed to update user');
+      }
+    } catch (err) {
+      console.error('Error updating user:', err);
+      setError('Failed to update user');
+    } finally {
+      setFormLoading(false);
     }
   };
 
@@ -1363,6 +1493,12 @@ export default function AdminAgentsPage() {
                                 >
                                   Edit
                                 </button>
+                                <button
+                                  onClick={() => handleDeleteUser(user._id)}
+                                  className="text-red-600 hover:text-red-900"
+                                >
+                                  Delete
+                                </button>
                               </td>
                             </tr>
                           ))}
@@ -1549,6 +1685,174 @@ export default function AdminAgentsPage() {
       )}
                   </div>
                   </div>
+
+      {/* Edit User Modal */}
+      {editingUser && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto">
+          <div className="bg-white rounded-lg p-6 w-full max-w-2xl mx-4 my-8">
+            <h2 className="text-xl font-bold text-black mb-4">Edit User: {editingUser.name}</h2>
+            <form onSubmit={handleUpdateUser}>
+              <div className="space-y-4">
+                {/* Personal Information */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-black mb-1">
+                      Full Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      placeholder="Enter full name"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black placeholder-gray-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-black mb-1">
+                      Email <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      placeholder="Enter email address"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black placeholder-gray-400"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-black mb-1">
+                      Phone
+                    </label>
+                    <input
+                      type="tel"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                      placeholder="Enter phone number"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black placeholder-gray-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-black mb-1">
+                      Role <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      value={formData.role}
+                      onChange={(e) => setFormData({...formData, role: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+                      required
+                    >
+                      <option value="sales-executive">Sales Executive</option>
+                      <option value="customer-executive">Customer Executive</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-black mb-1">
+                      Department
+                    </label>
+                    <select
+                      value={formData.role === 'sales-executive' ? 'Sales' : 'Customer Service'}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+                      disabled
+                    >
+                      <option value="Sales">Sales</option>
+                      <option value="Customer Service">Customer Service</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-black mb-1">
+                      Region
+                    </label>
+                    <select
+                      value={formData.region}
+                      onChange={(e) => setFormData({...formData, region: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+                    >
+                      <option value="">Select Region</option>
+                      <option value="mumbai-1">Mumbai-1</option>
+                      <option value="mumbai-2">Mumbai-2</option>
+                      <option value="others">Others</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-black mb-1">
+                    New Password (leave empty to keep current)
+                  </label>
+                  <input
+                    type="password"
+                    value={formData.password}
+                    onChange={(e) => setFormData({...formData, password: e.target.value})}
+                    placeholder="Enter new password or leave empty"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black placeholder-gray-400"
+                  />
+                </div>
+
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="isActive"
+                    checked={editingUser.isActive}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    readOnly
+                  />
+                  <label htmlFor="isActive" className="ml-2 block text-sm text-gray-900">
+                    Active User
+                  </label>
+                </div>
+
+                {/* User Information */}
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h3 className="text-sm font-medium text-gray-900 mb-2">User Information</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <span className="text-gray-600">Username:</span>
+                      <span className="ml-2 text-gray-900">{editingUser.username}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-600">Last Login:</span>
+                      <span className="ml-2 text-gray-900">
+                        {editingUser.lastLoginAt ? new Date(editingUser.lastLoginAt).toLocaleDateString() : 'Never'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {error && (
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+                    <p className="text-red-600 text-sm">{error}</p>
+                  </div>
+                )}
+              </div>
+              
+              <div className="flex justify-end space-x-3 mt-6">
+                <button
+                  type="button"
+                  onClick={() => setEditingUser(null)}
+                  className="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={formLoading}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+                >
+                  {formLoading ? 'Updating...' : 'Update User'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

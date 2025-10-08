@@ -26,7 +26,11 @@ export async function GET(req: Request) {
     const rows = await ChatMessage.aggregate(pipeline);
 
     const ids = rows.map((r: any) => r._id).filter(Boolean);
-    const visitors = await Visitor.find({ _id: { $in: ids } }).lean();
+    // Filter to only chatbot visitors
+    const visitors = await Visitor.find({ 
+      _id: { $in: ids },
+      source: 'chatbot' 
+    }).lean();
     const vMap = new Map(visitors.map((v: any) => [String(v._id), v]));
 
     const items = rows.map((r: any) => {
@@ -52,9 +56,9 @@ export async function GET(req: Request) {
     const limit = Number(url.searchParams.get("limit") || 5);
     
     const fallbackItems = Array.from({ length: limit }, (_, i) => ({
-      id: `active-${i}`,
-      name: `Active User ${i + 1}`,
-      email: `active${i + 1}@example.com`,
+      id: `chatbot-active-${i}`,
+      name: `Chatbot User ${i + 1}`,
+      email: `chatbot${i + 1}@example.com`,
       phone: `+91 ${9100000000 + i}`,
       messages: Math.floor(Math.random() * 15) + 3,
       lastAt: new Date(Date.now() - i * 600000).toISOString(), // Last 10 mins each

@@ -67,8 +67,13 @@ export default function ExecutiveChatHistoryPage() {
       setError(null);
       
       try {
-        const headers = { Authorization: `Bearer ${token}` };
-        const response = await fetch(`${API_BASE}/api/visitors?limit=100&page=1&q=`, { headers });
+        console.log('🔄 Loading chatbot chat history from database...');
+        const response = await fetch(`${API_BASE}/api/chat-history?limit=100&page=1&source=chatbot`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
 
         if (response.status === 401) {
           setError('Authentication failed. Please login again.');
@@ -82,31 +87,19 @@ export default function ExecutiveChatHistoryPage() {
           throw new Error('Failed to load visitors');
         }
 
-        const responseData = await response.json();
+        const data = await response.json();
+        console.log('✅ Chat history data received:', data.visitors?.length || 0, 'visitors');
         
-        // The /api/visitors endpoint returns { total, page, pageSize, items }
-        const visitorsData = responseData.items || responseData;
-        
-        // Check if we got valid data
-        if (!visitorsData || visitorsData.length === 0) {
-          console.warn('No visitors data received');
+        if (data.success && data.visitors && data.visitors.length > 0) {
+          setVisitors(data.visitors);
+          
+          // Auto-select first visitor if available
+          if (data.visitors.length > 0 && !selectedVisitor) {
+            setSelectedVisitor(data.visitors[0]);
+          }
+        } else {
+          console.warn('No chat history data received');
           setVisitors([]);
-          return;
-        }
-        
-        console.log('Real visitors data received:', visitorsData.length, 'visitors out of', responseData.total || 'unknown', 'total');
-        console.log('Visitor sources:', visitorsData.map((v: any) => v.source || 'unknown').join(', '));
-        console.log('First few visitors:', visitorsData.slice(0, 3).map((v: any) => ({ name: v.name, email: v.email, source: v.source })));
-        
-        // Filter to show only chatbot visitors (if you want to see all visitors, remove this filter)
-        const chatbotVisitors = visitorsData.filter((v: any) => v.source === 'chatbot' || !v.source);
-        console.log('Chatbot visitors:', chatbotVisitors.length, 'out of', visitorsData.length, 'total');
-        
-        setVisitors(chatbotVisitors);
-
-        // Auto-select first visitor if available
-        if (chatbotVisitors.length > 0 && !selectedVisitor) {
-          setSelectedVisitor(chatbotVisitors[0]);
         }
 
       } catch (e: any) {
@@ -125,12 +118,26 @@ export default function ExecutiveChatHistoryPage() {
       if (!selectedVisitor || !token) return;
 
       try {
-        const headers = { Authorization: `Bearer ${token}` };
-        const response = await fetch(`${API_BASE}/api/analytics/executive-chat-conversation/${selectedVisitor._id}`, { headers });
+        console.log('🔄 Loading conversation for visitor:', selectedVisitor._id);
+        const response = await fetch(`${API_BASE}/api/chat-history/${selectedVisitor._id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
 
         if (response.ok) {
-          const conversationData = await response.json();
-          setConversationData(conversationData);
+          const data = await response.json();
+          console.log('✅ Conversation data received:', data.messages?.length || 0, 'messages');
+          
+          if (data.success) {
+            setConversationData({
+              visitor: data.visitor,
+              messages: data.messages
+            });
+          } else {
+            console.error('Failed to load conversation data');
+          }
         } else {
           console.error('Failed to load conversation');
         }
@@ -216,7 +223,7 @@ export default function ExecutiveChatHistoryPage() {
           {/* Left Section - Visitors List */}
           <div className="w-80 bg-white border-r border-gray-200 flex flex-col">
             <div className="p-4 border-b border-gray-200">
-              <h2 className="text-lg font-semibold text-gray-900 mb-3">My Visitors</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-3">Chatbot Visitors</h2>
               <div className="relative">
                 <input
                   type="text"
