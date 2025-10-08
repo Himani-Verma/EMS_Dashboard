@@ -1,5 +1,5 @@
 [build]
-  command = "NEXT_PUBLIC_USE_MOCK=1 npm run build"
+  command = "npm run build"
   publish = ".next"
 
 [build.environment]
@@ -45,14 +45,17 @@
 # Environment variables for production
 [context.production.environment]
   NODE_ENV = "production"
-  NEXT_PUBLIC_API_BASE = "https://newems.netlify.app"
+  NEXT_PUBLIC_API_BASE = "https://dashboardems.netlify.app"
+  NEXT_PUBLIC_USE_MOCK = "0"
 
 # Environment variables for preview
 [context.deploy-preview.environment]
   NODE_ENV = "production"
-  NEXT_PUBLIC_API_BASE = "https://deploy-preview-{BRANCH}--newems.netlify.app"
+  NEXT_PUBLIC_API_BASE = "https://deploy-preview-{BRANCH}--dashboardems.netlify.app"
+  NEXT_PUBLIC_USE_MOCK = "0"
 
 # Environment variables for branch deploys
 [context.branch-deploy.environment]
   NODE_ENV = "production"
-  NEXT_PUBLIC_API_BASE = "https://{BRANCH}--newems.netlify.app"
+  NEXT_PUBLIC_API_BASE = "https://{BRANCH}--dashboardems.netlify.app"
+  NEXT_PUBLIC_USE_MOCK = "0"
