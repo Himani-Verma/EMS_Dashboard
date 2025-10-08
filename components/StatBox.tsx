@@ -56,25 +56,31 @@ export default function StatBox({ title, value, icon, color, change }: StatBoxPr
   const colorClasses = getColorClasses(color);
 
   return (
-    <div className={`bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-all hover:-translate-y-0.5 h-full ${colorClasses.border}`}>
-      <div className="flex items-center">
-        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${colorClasses.bg}`}>
-          <span className={`text-lg ${colorClasses.text}`}>{icon}</span>
-        </div>
-        <div className="ml-3">
-          <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">{title}</h3>
-          <p className="text-xl sm:text-2xl font-bold text-gray-900 mt-1">{(value || 0).toLocaleString()}</p>
-        </div>
-      </div>
-      
-      {change && (
-        <div className="mt-3 flex items-center">
-          <div className={`text-xs px-2 py-1 rounded-full font-medium ${change.isPositive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-            {change.isPositive ? '↗' : '↘'} {Math.abs(change.value)}%
+    <div className={`bg-card border border-border rounded-xl shadow-soft hover:shadow-medium transition-all duration-300 hover:-translate-y-1 p-6 h-full group ${colorClasses.border}`}>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${colorClasses.bg}`}>
+            <span className={`text-xl ${colorClasses.text}`}>{icon}</span>
           </div>
-          <span className="text-xs text-gray-500 ml-2">from last month</span>
+          <div>
+            <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide mb-1">{title}</h3>
+            <p className="text-2xl font-bold text-foreground">{(value || 0).toLocaleString()}</p>
+          </div>
         </div>
-      )}
+        
+        {change && (
+          <div className="flex flex-col items-end">
+            <div className={`text-xs px-3 py-1.5 rounded-full font-semibold transition-all duration-200 ${
+              change.isPositive 
+                ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' 
+                : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+            }`}>
+              {change.isPositive ? '↗' : '↘'} {Math.abs(change.value)}%
+            </div>
+            <span className="text-xs text-muted-foreground mt-1">vs last month</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

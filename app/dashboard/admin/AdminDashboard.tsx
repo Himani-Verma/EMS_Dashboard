@@ -142,7 +142,7 @@ export default function AdminDashboard() {
 
   return (
     <AuthGuard>
-      <div className="flex h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 transition-colors">
+      <div className="flex h-screen bg-background transition-colors">
         <Sidebar userRole={(user?.role as 'admin' | 'executive' | 'sales-executive' | 'customer-executive') || 'admin'} />
         <main className="flex-1 overflow-y-auto">
           <DashboardHeader userRole={(user?.role as 'admin' | 'executive' | 'sales-executive' | 'customer-executive') || 'admin'} />
@@ -150,12 +150,12 @@ export default function AdminDashboard() {
               {/* Header */}
               <div className="flex flex-wrap items-end justify-between gap-3 mb-6">
                 <div>
-                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">Admin Dashboard</h1>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">System Overview & Performance Metrics</p>
+                  <h1 className="text-3xl font-bold text-foreground mb-1">Admin Dashboard</h1>
+                  <p className="text-sm text-muted-foreground">System Overview & Performance Metrics</p>
                 </div>
-                <div className="flex items-center space-x-2 bg-white dark:bg-gray-800 px-3 py-2 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-2 bg-card border border-border px-4 py-3 rounded-lg shadow-soft">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-xs text-gray-600 dark:text-gray-400">
+                  <span className="text-xs text-muted-foreground">
                     Last updated: {formatLastUpdated(lastUpdated)}
                   </span>
                 </div>
@@ -317,15 +317,15 @@ export default function AdminDashboard() {
 
               {/* Error Display */}
               {error && (
-                <div className="mt-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4">
+                <div className="mt-6 bg-destructive/10 border border-destructive/20 rounded-xl p-4 animate-slide-up">
                   <div className="flex items-center">
-                    <div className="text-red-500 mr-3">⚠️</div>
+                    <div className="text-destructive mr-3">⚠️</div>
                     <div>
-                      <h4 className="text-sm font-medium text-red-800 dark:text-red-400">Error Loading Data</h4>
-                      <p className="text-sm text-red-600 dark:text-red-400 mt-1">{error}</p>
+                      <h4 className="text-sm font-medium text-destructive">Error Loading Data</h4>
+                      <p className="text-sm text-destructive/80 mt-1">{error}</p>
                       <button
                         onClick={fetchData}
-                        className="mt-2 text-sm text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 underline"
+                        className="mt-2 text-sm text-destructive hover:text-destructive/80 underline transition-colors duration-200"
                       >
                         Try again
                       </button>

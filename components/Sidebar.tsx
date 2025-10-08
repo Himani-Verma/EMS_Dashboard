@@ -94,14 +94,14 @@ export default function Sidebar({ userRole, userName }: SidebarProps) {
 
       {/* Mobile sidebar */}
       <div
-        className={`fixed inset-y-0 left-0 z-40 w-64 sm:w-72 bg-[#2d4891] dark:bg-gray-900 transform transition-transform duration-300 ease-in-out md:hidden mobile-sidebar shadow-2xl ${
+        className={`fixed inset-y-0 left-0 z-40 w-64 sm:w-72 bg-[#2d4891] dark:bg-gray-900 transform transition-transform duration-300 ease-in-out md:hidden mobile-sidebar shadow-large ${
           isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
         style={{ maxHeight: '100vh', overflow: 'hidden' }}
       >
         <div className="flex flex-col h-full">
           {/* Mobile header */}
-          <div className="flex items-center justify-between p-4 border-b border-white/10">
+          <div className="flex items-center justify-between p-6 border-b border-white/10">
             <div className="flex items-center">
               <span className="text-white font-semibold text-lg">
                 Envirocare EMS
@@ -122,14 +122,14 @@ export default function Sidebar({ userRole, userName }: SidebarProps) {
           </div>
           
           {/* Mobile logout */}
-          <div className="p-4 border-t border-white/10">
+          <div className="p-6 border-t border-white/10">
             <button
               onClick={() => {
                 localStorage.removeItem('ems_token');
                 localStorage.removeItem('ems_user');
                 window.location.href = '/login';
               }}
-              className="w-full flex items-center px-4 py-3 text-white hover:bg-red-500/20 hover:text-red-200 rounded-md transition-all duration-200 group"
+              className="w-full flex items-center px-4 py-3 text-white hover:bg-red-500/20 hover:text-red-200 rounded-lg transition-all duration-200 group"
             >
               <span className="text-lg group-hover:scale-110 transition-transform duration-200 mr-3">🚪</span>
               <span className="font-medium text-sm group-hover:text-red-200 transition-colors duration-200">
@@ -145,11 +145,11 @@ export default function Sidebar({ userRole, userName }: SidebarProps) {
   // Desktop sidebar component
   const DesktopSidebar = () => (
     <div
-      className={`hidden md:flex flex-col h-screen bg-[#2d4891] dark:bg-gray-900 text-white transition-all duration-300 ease-in-out shadow-2xl border-r border-gray-200 dark:border-gray-800
+      className={`hidden md:flex flex-col h-screen bg-[#2d4891] dark:bg-gray-900 text-white transition-all duration-300 ease-in-out shadow-large border-r border-white/10
                 ${isCollapsed ? 'w-20' : 'w-64'}`}
     >
       {/* Header with minimize button */}
-      <div className={`flex items-center border-b border-white/10 ${isCollapsed ? 'justify-center p-4' : 'justify-between p-4'}`}>
+      <div className={`flex items-center border-b border-white/10 ${isCollapsed ? 'justify-center p-6' : 'justify-between p-6'}`}>
         {!isCollapsed ? (
           <>
             <span className="text-white font-semibold text-lg truncate">
@@ -194,14 +194,14 @@ export default function Sidebar({ userRole, userName }: SidebarProps) {
       </div>
       
       {/* Logout button pinned at bottom */}
-      <div className="p-4 border-t border-white/10">
+      <div className="p-6 border-t border-white/10">
         <button
           onClick={() => {
             localStorage.removeItem('ems_token');
             localStorage.removeItem('ems_user');
             window.location.href = '/login';
           }}
-          className={`w-full text-white hover:bg-red-500/20 hover:text-red-200 rounded-md transition-all duration-200 group ${
+          className={`w-full text-white hover:bg-red-500/20 hover:text-red-200 rounded-lg transition-all duration-200 group ${
             isCollapsed 
               ? 'flex justify-center px-2 py-3' 
               : 'flex items-center px-4 py-3'
@@ -223,12 +223,12 @@ export default function Sidebar({ userRole, userName }: SidebarProps) {
 
   // Common sidebar content
   const SidebarContent = () => (
-    <div className="p-4">
+    <div className="p-6">
       {/* User Welcome Section */}
-      <div className={`${isCollapsed ? 'text-center mb-4' : 'mb-4'}`}>
+      <div className={`${isCollapsed ? 'text-center mb-6' : 'mb-6'}`}>
         {!isCollapsed ? (
           <>
-            <div className="flex items-center justify-center mb-3">
+            <div className="flex items-center justify-center mb-4">
               <Image
                 src="/envirocare-logo.png"
                 alt="Envirocare Labs"
@@ -245,7 +245,7 @@ export default function Sidebar({ userRole, userName }: SidebarProps) {
             )}
           </>
         ) : (
-          <div className="flex justify-center mb-3">
+          <div className="flex justify-center mb-4">
             <Image
               src="/envirocare-logo.png"
               alt="Envirocare Labs"
@@ -259,14 +259,14 @@ export default function Sidebar({ userRole, userName }: SidebarProps) {
 
       {/* Navigation */}
       <nav>
-        <ul className="space-y-1">
+        <ul className="space-y-2">
           {links.map((link) => {
             const isActive = pathname === link.href;
             return (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={`flex items-center rounded-md transition-all duration-200 group ${
+                  className={`flex items-center rounded-lg transition-all duration-200 group ${
                     isCollapsed 
                       ? 'justify-center px-3 py-3' 
                       : 'px-4 py-3'

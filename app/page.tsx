@@ -450,11 +450,11 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
+      <header className="bg-card shadow-soft border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
+          <div className="flex justify-between items-center py-6">
             <div className="flex items-center">
               <Image 
                 src="/envirocare-logo.png" 
@@ -464,16 +464,16 @@ export default function Home() {
                 className="h-12 w-auto"
               />
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
               <button
                 onClick={handleRegisterClick}
-                className="border border-green-600 text-green-600 hover:bg-green-50 px-6 py-2 rounded-lg font-medium transition-colors duration-200"
+                className="border border-primary text-primary hover:bg-primary/5 px-6 py-2.5 rounded-lg font-medium transition-all duration-200 hover:scale-105"
               >
                 Register
               </button>
               <button
                 onClick={handleLoginClick}
-                className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200 shadow-md"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2.5 rounded-lg font-medium transition-all duration-200 shadow-soft hover:shadow-medium hover:scale-105"
               >
                 Login
               </button>
@@ -485,12 +485,12 @@ export default function Home() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {error && (
-          <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+          <div className="mb-6 bg-destructive/10 border border-destructive/20 rounded-xl p-4 animate-slide-up">
             <div className="flex items-center">
-              <svg className="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-destructive mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <div className="text-red-700 font-medium">{error}</div>
+              <div className="text-destructive font-medium">{error}</div>
             </div>
           </div>
         )}
@@ -498,16 +498,16 @@ export default function Home() {
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Visitors Management</h1>
-              <p className="text-gray-600">View and manage all visitors through the pipeline</p>
+              <h1 className="text-3xl font-bold text-foreground mb-2">Visitors Management</h1>
+              <p className="text-muted-foreground">View and manage all visitors through the pipeline</p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               {/* Delete Selected Button */}
               {selectedVisitors.size > 0 && (
                 <button
                   onClick={handleDeleteSelected}
                   disabled={isDeleting}
-                  className="flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed"
+                  className="flex items-center gap-2 px-4 py-2.5 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-all duration-200 shadow-soft hover:shadow-medium disabled:bg-muted disabled:cursor-not-allowed hover:scale-105"
                   title={`Delete ${selectedVisitors.size} selected visitor(s)`}
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -522,7 +522,7 @@ export default function Home() {
                 <button
                   onClick={handleDeleteAll}
                   disabled={isDeleting}
-                  className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed"
+                  className="flex items-center gap-2 px-4 py-2.5 bg-destructive text-destructive-foreground rounded-lg hover:bg-destructive/90 transition-all duration-200 shadow-soft hover:shadow-medium disabled:bg-muted disabled:cursor-not-allowed hover:scale-105"
                   title="Delete all visitors"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -536,7 +536,7 @@ export default function Home() {
               <div className="relative export-dropdown">
                 <button
                   onClick={() => setShowExportDropdown(!showExportDropdown)}
-                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md"
+                  className="flex items-center gap-2 px-4 py-2.5 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all duration-200 shadow-soft hover:shadow-medium hover:scale-105"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -548,14 +548,14 @@ export default function Home() {
                 </button>
                 
                 {showExportDropdown && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
-                    <div className="py-1">
+                  <div className="absolute right-0 mt-2 w-48 bg-card border border-border rounded-xl shadow-large z-50 animate-scale-in">
+                    <div className="py-2">
                       <button
                         onClick={() => {
                           exportToCSV();
                           setShowExportDropdown(false);
                         }}
-                        className="flex items-center gap-3 w-full px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors"
+                        className="flex items-center gap-3 w-full px-4 py-3 text-sm text-foreground hover:bg-accent transition-colors duration-200"
                       >
                         <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -573,10 +573,10 @@ export default function Home() {
                   console.log('🔄 Manual refresh triggered');
                   loadVisitors();
                 }}
-                className="flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md"
+                className="flex items-center justify-center w-12 h-12 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all duration-200 shadow-soft hover:shadow-medium hover:scale-105"
                 title="Refresh data"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                 </svg>
               </button>
@@ -585,20 +585,20 @@ export default function Home() {
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+        <div className="bg-card border border-border rounded-xl shadow-soft p-6 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {/* Search */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Search</label>
+              <label className="block text-sm font-medium text-foreground mb-2">Search</label>
               <div className="relative">
                 <input
                   type="text"
                   placeholder="Search visitors..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+                  className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-input text-foreground transition-all duration-200"
                 />
-                <svg className="absolute right-3 top-2.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="absolute right-3 top-3.5 h-5 w-5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </div>
@@ -606,25 +606,25 @@ export default function Home() {
 
             {/* Status Filter */}
             <div className="relative status-filter">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
+              <label className="block text-sm font-medium text-foreground mb-2">Status</label>
               <button
                 onClick={() => setShowStatusFilter(!showStatusFilter)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-left text-gray-900 flex items-center justify-between"
+                className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-left text-foreground flex items-center justify-between bg-input hover:bg-accent transition-all duration-200"
               >
                 <span>{PIPELINE_STAGES.find(s => s.id === filters.status)?.name || 'All Statuses'}</span>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
               
               {showStatusFilter && (
-                <div className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                <div className="absolute z-50 w-full mt-2 bg-card border border-border rounded-lg shadow-large max-h-60 overflow-y-auto animate-scale-in">
                   <button
                     onClick={() => {
                       setFilters(prev => ({ ...prev, status: 'all' }));
                       setShowStatusFilter(false);
                     }}
-                    className="w-full px-3 py-2 text-left text-sm text-gray-900 hover:bg-gray-100"
+                    className="w-full px-4 py-3 text-left text-sm text-foreground hover:bg-accent transition-colors duration-200"
                   >
                     All Statuses
                   </button>
@@ -635,7 +635,7 @@ export default function Home() {
                         setFilters(prev => ({ ...prev, status: stage.id }));
                         setShowStatusFilter(false);
                       }}
-                      className="w-full px-3 py-2 text-left text-sm text-gray-900 hover:bg-gray-100"
+                      className="w-full px-4 py-3 text-left text-sm text-foreground hover:bg-accent transition-colors duration-200"
                     >
                       {stage.name}
                     </button>
@@ -646,19 +646,19 @@ export default function Home() {
 
             {/* Time Period Filter */}
             <div className="relative time-filter">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Time Period</label>
+              <label className="block text-sm font-medium text-foreground mb-2">Time Period</label>
               <button
                 onClick={() => setShowTimeFilter(!showTimeFilter)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-left text-gray-900 flex items-center justify-between"
+                className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-left text-foreground flex items-center justify-between bg-input hover:bg-accent transition-all duration-200"
               >
                 <span>{TIME_PERIODS.find(t => t.id === filters.timePeriod)?.name || 'All Time'}</span>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
               
               {showTimeFilter && (
-                <div className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+                <div className="absolute z-50 w-full mt-2 bg-card border border-border rounded-lg shadow-large animate-scale-in">
                   {TIME_PERIODS.map(period => (
                     <button
                       key={period.id}
@@ -670,7 +670,7 @@ export default function Home() {
                           setShowMonthPicker(true);
                         }
                       }}
-                      className="w-full px-3 py-2 text-left text-sm text-gray-900 hover:bg-gray-100"
+                      className="w-full px-4 py-3 text-left text-sm text-foreground hover:bg-accent transition-colors duration-200"
                     >
                       {period.name}
                     </button>
@@ -682,25 +682,25 @@ export default function Home() {
             {/* Month Filter - Only show when Monthly is selected */}
             {filters.timePeriod === 'monthly' && (
               <div className="relative month-picker">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Month</label>
+                <label className="block text-sm font-medium text-foreground mb-2">Month</label>
                 <button
                   onClick={() => setShowMonthPicker(!showMonthPicker)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-left text-gray-900 flex items-center justify-between"
+                  className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-left text-foreground flex items-center justify-between bg-input hover:bg-accent transition-all duration-200"
                 >
                   <span>{filters.month === 'all' ? 'All Months' : MONTHS.find(m => m.id === filters.month)?.name || 'All Months'}</span>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
                 
                 {showMonthPicker && (
-                  <div className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                  <div className="absolute z-50 w-full mt-2 bg-card border border-border rounded-lg shadow-large max-h-60 overflow-y-auto animate-scale-in">
                     <button
                       onClick={() => {
                         setFilters(prev => ({ ...prev, month: 'all' }));
                         setShowMonthPicker(false);
                       }}
-                      className="w-full px-3 py-2 text-left text-sm text-gray-900 hover:bg-gray-100"
+                      className="w-full px-4 py-3 text-left text-sm text-foreground hover:bg-accent transition-colors duration-200"
                     >
                       All Months
                     </button>
@@ -711,7 +711,7 @@ export default function Home() {
                           setFilters(prev => ({ ...prev, month: month.id }));
                           setShowMonthPicker(false);
                         }}
-                        className="w-full px-3 py-2 text-left text-sm text-gray-900 hover:bg-gray-100"
+                        className="w-full px-4 py-3 text-left text-sm text-foreground hover:bg-accent transition-colors duration-200"
                       >
                         {month.name}
                       </button>
@@ -724,41 +724,41 @@ export default function Home() {
             {/* Columns Filter - Show when not monthly or as 4th column */}
             {filters.timePeriod !== 'monthly' && (
               <div className="relative column-filter">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Show Columns</label>
+                <label className="block text-sm font-medium text-foreground mb-2">Show Columns</label>
                 <button
                   onClick={() => setShowColumnFilter(!showColumnFilter)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-left text-gray-900 flex items-center justify-between"
+                  className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-left text-foreground flex items-center justify-between bg-input hover:bg-accent transition-all duration-200"
                 >
                   <span>Select Columns</span>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
                 
                 {showColumnFilter && (
-                  <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 z-50 max-h-80 overflow-y-auto">
-                    <div className="p-3">
-                      <div className="text-sm font-medium text-gray-700 mb-3">Select columns to display:</div>
-                      <div className="space-y-2">
+                  <div className="absolute right-0 mt-2 w-64 bg-card border border-border rounded-xl shadow-large z-50 max-h-80 overflow-y-auto animate-scale-in">
+                    <div className="p-4">
+                      <div className="text-sm font-medium text-foreground mb-4">Select columns to display:</div>
+                      <div className="space-y-3">
                         {Object.entries(visibleColumns).map(([columnName, isVisible]) => (
-                          <label key={columnName} className="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                          <label key={columnName} className="flex items-center space-x-3 cursor-pointer hover:bg-accent p-3 rounded-lg transition-colors duration-200">
                             <input
                               type="checkbox"
                               checked={isVisible}
                               onChange={(e) => handleColumnVisibilityChange(columnName, e.target.checked)}
-                              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                              className="w-4 h-4 text-primary border-border rounded focus:ring-primary"
                             />
-                            <span className="text-sm text-gray-700">{columnName}</span>
+                            <span className="text-sm text-foreground">{columnName}</span>
                           </label>
                         ))}
                       </div>
-                      <div className="mt-3 pt-3 border-t border-gray-200">
+                      <div className="mt-4 pt-4 border-t border-border">
                         <button
                           onClick={() => {
                             const allVisible = Object.keys(visibleColumns).reduce((acc, key) => ({ ...acc, [key]: true }), {} as typeof visibleColumns);
                             setVisibleColumns(allVisible);
                           }}
-                          className="text-xs text-blue-600 hover:text-blue-800 mr-3"
+                          className="text-xs text-primary hover:text-primary/80 mr-4 transition-colors duration-200"
                         >
                           Show All
                         </button>
@@ -767,7 +767,7 @@ export default function Home() {
                             const allHidden = Object.keys(visibleColumns).reduce((acc, key) => ({ ...acc, [key]: false }), {} as typeof visibleColumns);
                             setVisibleColumns(allHidden);
                           }}
-                          className="text-xs text-gray-600 hover:text-gray-800"
+                          className="text-xs text-muted-foreground hover:text-foreground transition-colors duration-200"
                         >
                           Hide All
                         </button>
@@ -781,143 +781,143 @@ export default function Home() {
         </div>
 
         {/* Visitors Table */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-card border border-border rounded-xl shadow-soft overflow-hidden">
           {loading ? (
             <div className="flex items-center justify-center h-64">
               <div className="flex items-center space-x-3">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                <div className="text-gray-600">Loading visitors...</div>
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                <div className="text-muted-foreground">Loading visitors...</div>
               </div>
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+              <table className="min-w-full divide-y divide-border">
+                <thead className="bg-muted/50">
                   <tr>
                     {/* Checkbox column */}
-                    <th className="px-4 py-3 text-left">
+                    <th className="px-6 py-4 text-left">
                       <input
                         type="checkbox"
                         checked={selectedVisitors.size === filteredVisitors.length && filteredVisitors.length > 0}
                         onChange={toggleSelectAll}
-                        className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
+                        className="w-4 h-4 text-primary border-border rounded focus:ring-primary cursor-pointer"
                         title="Select all visitors"
                       />
                     </th>
                     {visibleColumns['Sr.no.'] && (
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                         Sr.no.
                       </th>
                     )}
                     {visibleColumns['Name of Client'] && (
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                         Name of Client
                       </th>
                     )}
                     {visibleColumns['Agent'] && (
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                         Agent
                       </th>
                     )}
                     {visibleColumns['Status'] && (
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                         Status
                       </th>
                     )}
                     {visibleColumns['Date & Time'] && (
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                         Date & Time
                       </th>
                     )}
                     {visibleColumns['Service'] && (
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                         Service
                       </th>
                     )}
                     {visibleColumns['Sub-service'] && (
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                         Sub-service
                       </th>
                     )}
                     {visibleColumns['Enquiry Details'] && (
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                         Enquiry Details
                       </th>
                     )}
                     {visibleColumns['Source'] && (
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                         Source
                       </th>
                     )}
                     {visibleColumns['Contact no.'] && (
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                         Contact no.
                       </th>
                     )}
                     {visibleColumns['Email id'] && (
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                         Email id
                       </th>
                     )}
                     {visibleColumns['Organization'] && (
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                         Organization
                       </th>
                     )}
                     {visibleColumns['Region'] && (
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                         Region
                       </th>
                     )}
                     {visibleColumns['Sales Executive'] && (
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                         Sales Executive
                       </th>
                     )}
                     {visibleColumns['Comments'] && (
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                         Comments
                       </th>
                     )}
                     {visibleColumns['Amount'] && (
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                         Amount
                       </th>
                     )}
                     {/* Actions column */}
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-card divide-y divide-border">
                   {filteredVisitors.map((visitor, index) => (
-                    <tr key={visitor._id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                    <tr key={visitor._id} className={`hover:bg-accent/50 transition-colors duration-200 ${index % 2 === 0 ? 'bg-card' : 'bg-muted/20'}`}>
                       {/* Checkbox cell */}
-                      <td className="px-4 py-4 whitespace-nowrap">
+                      <td className="px-6 py-4 whitespace-nowrap">
                         <input
                           type="checkbox"
                           checked={selectedVisitors.has(visitor._id)}
                           onChange={() => toggleVisitorSelection(visitor._id)}
-                          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
+                          className="w-4 h-4 text-primary border-border rounded focus:ring-primary cursor-pointer"
                           title="Select this visitor"
                         />
                       </td>
                       {visibleColumns['Sr.no.'] && (
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">
                           {index + 1}
                         </td>
                       )}
                       {visibleColumns['Name of Client'] && (
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-gray-900">
+                          <div className="text-sm font-medium text-foreground">
                             {visitor.name || 'N/A'}
                           </div>
                         </td>
                       )}
                       {visibleColumns['Agent'] && (
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">
+                          <div className="text-sm text-foreground">
                             {visitor.agentName || visitor.assignedAgent || 'Unassigned'}
                           </div>
                         </td>
@@ -929,12 +929,12 @@ export default function Home() {
                               setSelectedVisitor(visitor);
                               setShowPipeline(true);
                             }}
-                            className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full hover:opacity-80 transition-opacity cursor-pointer ${
-                              visitor.status === 'converted' ? 'bg-green-100 text-green-800' :
-                              visitor.status === 'qualified' ? 'bg-blue-100 text-blue-800' :
-                              visitor.status === 'quotation_sent' ? 'bg-yellow-100 text-yellow-800' :
-                              visitor.status === 'negotiation_stage' ? 'bg-purple-100 text-purple-800' :
-                              'bg-gray-100 text-gray-800'
+                            className={`inline-flex px-3 py-1.5 text-xs font-semibold rounded-full hover:opacity-80 transition-all duration-200 cursor-pointer hover:scale-105 ${
+                              visitor.status === 'converted' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
+                              visitor.status === 'qualified' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' :
+                              visitor.status === 'quotation_sent' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
+                              visitor.status === 'negotiation_stage' ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400' :
+                              'bg-muted text-muted-foreground'
                             }`}
                             title="Click to view pipeline and status history"
                           >
@@ -943,60 +943,60 @@ export default function Home() {
                         </td>
                       )}
                       {visibleColumns['Date & Time'] && (
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">
                           {new Date(visitor.createdAt).toLocaleString()}
                         </td>
                       )}
                       {visibleColumns['Service'] && (
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">
+                          <div className="text-sm text-foreground">
                             {getServiceDisplayName(visitor.service) || visitor.service || 'N/A'}
                           </div>
                         </td>
                       )}
                       {visibleColumns['Sub-service'] && (
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">
+                          <div className="text-sm text-foreground">
                             {visitor.subservice || 'N/A'}
                           </div>
                         </td>
                       )}
                       {visibleColumns['Enquiry Details'] && (
                         <td className="px-6 py-4">
-                          <div className="text-sm text-gray-900 max-w-xs truncate">
+                          <div className="text-sm text-foreground max-w-xs truncate">
                             {visitor.enquiryDetails || 'N/A'}
                           </div>
                         </td>
                       )}
                       {visibleColumns['Source'] && (
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                          <span className="inline-flex px-3 py-1.5 text-xs font-semibold rounded-full bg-primary/10 text-primary">
                             {visitor.source || 'N/A'}
                           </span>
                         </td>
                       )}
                       {visibleColumns['Contact no.'] && (
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">
                           {visitor.phone || 'N/A'}
                         </td>
                       )}
                       {visibleColumns['Email id'] && (
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">
                           {visitor.email || 'N/A'}
                         </td>
                       )}
                       {visibleColumns['Organization'] && (
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">
                           {visitor.organization || 'N/A'}
                         </td>
                       )}
                       {visibleColumns['Region'] && (
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">
                           {visitor.region || 'N/A'}
                         </td>
                       )}
                       {visibleColumns['Sales Executive'] && (
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">
                           {(() => {
                             // Don't show Customer Executive as Sales Executive
                             if (visitor.salesExecutiveName === 'Customer Executive') {
@@ -1008,13 +1008,13 @@ export default function Home() {
                       )}
                       {visibleColumns['Comments'] && (
                         <td className="px-6 py-4">
-                          <div className="text-sm text-gray-900 max-w-xs truncate">
+                          <div className="text-sm text-foreground max-w-xs truncate">
                             {visitor.comments || 'N/A'}
                           </div>
                         </td>
                       )}
                       {visibleColumns['Amount'] && (
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">
                           {visitor.amount ? `₹${visitor.amount.toLocaleString()}` : 'N/A'}
                         </td>
                       )}
@@ -1023,7 +1023,7 @@ export default function Home() {
                         <button
                           onClick={() => handleDeleteVisitor(visitor._id)}
                           disabled={isDeleting}
-                          className="inline-flex items-center gap-1 px-3 py-1.5 bg-red-100 text-red-700 rounded-md hover:bg-red-200 transition-colors disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+                          className="inline-flex items-center gap-2 px-3 py-2 bg-destructive/10 text-destructive rounded-lg hover:bg-destructive/20 transition-all duration-200 disabled:bg-muted disabled:text-muted-foreground disabled:cursor-not-allowed hover:scale-105"
                           title="Delete this visitor"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1041,10 +1041,19 @@ export default function Home() {
 
           {/* No results */}
           {!loading && filteredVisitors.length === 0 && (
-            <div className="px-6 py-8 text-center text-gray-500">
-              {searchTerm || filters.status !== 'all' || filters.timePeriod !== 'all' || filters.month !== 'all'
-                ? 'No visitors found matching your filters.'
-                : 'No visitors found.'}
+            <div className="px-6 py-12 text-center">
+              <div className="flex flex-col items-center space-y-4">
+                <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center">
+                  <svg className="w-8 h-8 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <div className="text-muted-foreground">
+                  {searchTerm || filters.status !== 'all' || filters.timePeriod !== 'all' || filters.month !== 'all'
+                    ? 'No visitors found matching your filters.'
+                    : 'No visitors found.'}
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -1052,7 +1061,7 @@ export default function Home() {
         {/* Pagination */}
         {filteredVisitors.length > 0 && (
           <div className="mt-6 flex items-center justify-between">
-            <div className="text-sm text-gray-700">
+            <div className="text-sm text-muted-foreground">
               Showing {filteredVisitors.length} visitors
             </div>
           </div>
@@ -1061,16 +1070,16 @@ export default function Home() {
 
       {/* Pipeline Modal */}
       {showPipeline && selectedVisitor && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
-          <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-5xl max-h-[80vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-5 py-4 rounded-t-xl">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
+          <div className="relative bg-card border border-border rounded-xl shadow-large w-full max-w-5xl max-h-[80vh] overflow-y-auto animate-scale-in">
+            <div className="sticky top-0 bg-card border-b border-border px-6 py-5 rounded-t-xl">
               <div className="flex items-center justify-between">
-                <h3 className="text-xl font-bold text-gray-900">
+                <h3 className="text-xl font-bold text-foreground">
                   Pipeline Tracking: {selectedVisitor.name || 'Anonymous'}
                 </h3>
                 <button
                   onClick={() => setShowPipeline(false)}
-                  className="text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-100"
+                  className="text-muted-foreground hover:text-foreground transition-colors p-2 rounded-lg hover:bg-accent"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -1079,17 +1088,17 @@ export default function Home() {
               </div>
             </div>
             
-            <div className="p-5">
+            <div className="p-6">
               {/* Pipeline Flowchart - Read Only Mode */}
               <div className="mb-6">
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 mb-4">
                   <div className="flex items-center">
-                    <svg className="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-primary mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <p className="text-blue-800 font-medium">Read-Only View</p>
+                    <p className="text-primary font-medium">Read-Only View</p>
                   </div>
-                  <p className="text-blue-700 text-sm mt-1">
+                  <p className="text-primary/80 text-sm mt-1">
                     This is a read-only view of the pipeline. You can see the current status and executive notes, but cannot make changes.
                   </p>
                 </div>
@@ -1108,7 +1117,7 @@ export default function Home() {
               <div className="mt-8 flex justify-end space-x-4">
                 <button
                   onClick={() => setShowPipeline(false)}
-                  className="px-6 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-all duration-200 font-medium"
+                  className="px-6 py-3 text-foreground bg-secondary rounded-lg hover:bg-accent transition-all duration-200 font-medium hover:scale-105"
                 >
                   Close
                 </button>
@@ -1125,7 +1134,7 @@ export default function Home() {
       {!isChatbotOpen && (
         <button
           onClick={() => setIsChatbotOpen(true)}
-          className="fixed bottom-6 right-6 bg-gradient-to-r from-[#2d4891] to-[#1e3a8a] text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 z-40"
+          className="fixed bottom-6 right-6 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground p-4 rounded-full shadow-large hover:shadow-xl transition-all duration-300 transform hover:scale-110 z-40"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />

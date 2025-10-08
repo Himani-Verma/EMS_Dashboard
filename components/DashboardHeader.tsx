@@ -57,33 +57,33 @@ export default function DashboardHeader({ userRole, userName }: DashboardHeaderP
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700 px-3 py-2 sm:px-4 sm:py-3 md:mt-0 mt-12 transition-colors">
+    <div className="bg-card border-b border-border shadow-soft px-4 py-4 md:mt-0 mt-12 transition-all duration-300">
       <div className="flex justify-between items-center">
         <div className="flex-1 min-w-0">
-          <h1 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 dark:text-white truncate">
-            Enquiry Management System
+          <h1 className="text-xl font-bold text-foreground truncate">
+            {getGreeting()}, {userName || userRole}
           </h1>
           {isClient && currentTime ? (
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-0.5 truncate">
+            <p className="text-sm text-muted-foreground mt-1 truncate">
               {formatDate(currentTime)} • {formatTime(currentTime)}
             </p>
           ) : (
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-0.5">
+            <p className="text-sm text-muted-foreground mt-1">
               Loading...
             </p>
           )}
         </div>
 
-        <div className="flex items-center space-x-2 flex-shrink-0 ml-2">
+        <div className="flex items-center space-x-3 flex-shrink-0 ml-4">
           {/* Theme Toggle Button - Only show after mount to prevent hydration mismatch */}
           {mounted && (
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              className="p-2.5 rounded-lg bg-secondary hover:bg-accent transition-all duration-200 hover:scale-105"
               title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
             >
               {theme === 'light' ? (
-                <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
               ) : (
@@ -96,65 +96,68 @@ export default function DashboardHeader({ userRole, userName }: DashboardHeaderP
 
           {/* Profile Menu */}
           <div className="relative">
-          <button
-            onClick={() => setShowProfileMenu(!showProfileMenu)}
-            className="flex items-center space-x-1 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg px-2 py-1.5 sm:px-3 sm:py-2 text-xs transition-colors"
-          >
-            <div className="w-6 h-6 sm:w-7 sm:h-7 bg-blue-600 dark:bg-blue-500 rounded-full flex items-center justify-center text-white text-xs sm:text-sm font-semibold">
-              {userName ? userName.charAt(0).toUpperCase() : userRole.charAt(0).toUpperCase()}
-            </div>
-            <span className="hidden sm:inline text-xs sm:text-sm text-gray-700 dark:text-gray-300 font-medium truncate max-w-24">
-              {userName || userRole}
-            </span>
-            <svg 
-              className={`w-3 h-3 sm:w-4 sm:h-4 text-gray-500 dark:text-gray-400 transition-transform ${showProfileMenu ? 'rotate-180' : ''}`}
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
+            <button
+              onClick={() => setShowProfileMenu(!showProfileMenu)}
+              className="flex items-center space-x-2 bg-secondary hover:bg-accent rounded-lg px-3 py-2 transition-all duration-200 hover:scale-105"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-
-          {showProfileMenu && (
-            <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-50">
-              <div className="py-1">
-                <button
-                  onClick={() => {
-                    setShowProfileMenu(false);
-                    window.location.href = userRole === 'admin' 
-                      ? '/dashboard/admin/settings' 
-                      : '/dashboard/executive/profile';
-                  }}
-                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
-                  👤 View Profile
-                </button>
-                <button
-                  onClick={() => {
-                    setShowProfileMenu(false);
-                    window.location.href = userRole === 'admin' 
-                      ? '/dashboard/admin/settings' 
-                      : '/dashboard/executive/profile';
-                  }}
-                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
-                  ⚙️ Settings
-                </button>
-                <hr className="my-1 border-gray-200 dark:border-gray-700" />
-                <button
-                  onClick={() => {
-                    localStorage.removeItem('ems_token');
-                    localStorage.removeItem('ems_user');
-                    window.location.href = '/login';
-                  }}
-                  className="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
-                  🚪 Logout
-                </button>
+              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-sm font-semibold">
+                {userName ? userName.charAt(0).toUpperCase() : userRole.charAt(0).toUpperCase()}
               </div>
-            </div>
-          )}
+              <span className="hidden sm:inline text-sm font-medium text-foreground truncate max-w-24">
+                {userName || userRole}
+              </span>
+              <svg 
+                className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${showProfileMenu ? 'rotate-180' : ''}`}
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {showProfileMenu && (
+              <div className="absolute right-0 mt-2 w-56 bg-card border border-border rounded-xl shadow-large z-50 animate-scale-in">
+                <div className="py-2">
+                  <button
+                    onClick={() => {
+                      setShowProfileMenu(false);
+                      window.location.href = userRole === 'admin' 
+                        ? '/dashboard/admin/settings' 
+                        : '/dashboard/executive/profile';
+                    }}
+                    className="flex items-center w-full px-4 py-3 text-sm text-foreground hover:bg-accent transition-colors duration-200"
+                  >
+                    <span className="mr-3">👤</span>
+                    View Profile
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowProfileMenu(false);
+                      window.location.href = userRole === 'admin' 
+                        ? '/dashboard/admin/settings' 
+                        : '/dashboard/executive/profile';
+                    }}
+                    className="flex items-center w-full px-4 py-3 text-sm text-foreground hover:bg-accent transition-colors duration-200"
+                  >
+                    <span className="mr-3">⚙️</span>
+                    Settings
+                  </button>
+                  <hr className="my-2 border-border" />
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem('ems_token');
+                      localStorage.removeItem('ems_user');
+                      window.location.href = '/login';
+                    }}
+                    className="flex items-center w-full px-4 py-3 text-sm text-destructive hover:bg-destructive/10 transition-colors duration-200"
+                  >
+                    <span className="mr-3">🚪</span>
+                    Logout
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
